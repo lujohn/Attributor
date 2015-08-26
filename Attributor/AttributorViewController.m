@@ -10,28 +10,44 @@
 
 @interface AttributorViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextView *body;
+@property (weak, nonatomic) IBOutlet UIButton *outlineButton;
+
+
 @end
 
 @implementation AttributorViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+   [super viewDidLoad];
+   NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:self.outlineButton.currentTitle];
+   [labelText addAttributes:@{NSStrokeWidthAttributeName : @3,
+                              NSStrokeColorAttributeName : self.outlineButton.tintColor}
+                      range:NSMakeRange(0, [labelText length])];
+   [self.outlineButton setAttributedTitle:labelText forState:UIControlStateNormal];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (IBAction)changeBodySelectionColorToMatchBackgroundOfButton:(UIButton *)sender
+{
+   [self.body.textStorage addAttribute:NSForegroundColorAttributeName
+                                 value:sender.backgroundColor
+                                 range:self.body.selectedRange];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)outlineBodySelection:(UIButton *)sender
+{
+   [self.body.textStorage addAttributes:@{NSStrokeWidthAttributeName : @3,
+                                          NSStrokeColorAttributeName : [UIColor blackColor]}
+                                  range:self.body.selectedRange];
 }
-*/
+
+- (IBAction)unoutlineBodySelection:(UIButton *)sender
+{
+   [self.body.textStorage removeAttribute:NSStrokeWidthAttributeName range:self.body.selectedRange];
+}
+
+
 
 @end
