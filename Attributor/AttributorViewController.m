@@ -11,6 +11,7 @@
 @interface AttributorViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextView *body;
+@property (weak, nonatomic) IBOutlet UILabel *headline;
 @property (weak, nonatomic) IBOutlet UIButton *outlineButton;
 
 
@@ -27,6 +28,32 @@
    [self.outlineButton setAttributedTitle:labelText forState:UIControlStateNormal];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+   [super viewWillAppear:animated];
+   [self usePreferredFonts];
+   [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(preferredFontSizeChanged:)
+                                                name:UIContentSizeCategoryDidChangeNotification
+                                              object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+   [super viewWillDisappear:animated];
+   [[NSNotificationCenter defaultCenter] removeObserver:self name:UIContentSizeCategoryDidChangeNotification object:nil];
+}
+
+- (void)preferredFontSizeChanged:(NSNotification *)notification
+{
+   [self usePreferredFonts];
+}
+
+- (void)usePreferredFonts
+{
+   self.headline.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+   self.body.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+}
 
 - (IBAction)changeBodySelectionColorToMatchBackgroundOfButton:(UIButton *)sender
 {

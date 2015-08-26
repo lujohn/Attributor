@@ -92,6 +92,7 @@
                     </view>
                     <connections>
                         <outlet property="body" destination="pA3-lt-Mol" id="Kob-O2-n71"/>
+                        <outlet property="headline" destination="FFc-Ak-jxe" id="4fw-rk-u89"/>
                         <outlet property="outlineButton" destination="JZo-cv-Hyc" id="zwF-s7-kGS"/>
                     </connections>
                 </viewController>
